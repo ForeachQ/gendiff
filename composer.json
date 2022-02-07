@@ -1,0 +1,17 @@
+{
+    "name": "hexlet/code",
+    "type": "project",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "Hexlet\\Code\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ilya Golovin",
+            "email": "foreachq@gmail.com"
+        }
+    ],
+    "require": {}
+}
