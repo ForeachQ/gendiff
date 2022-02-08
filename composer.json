@@ -1,6 +1,7 @@
 {
     "name": "hexlet/code",
     "type": "project",
+    "description": "difference project",
     "license": "proprietary",
     "bin": [
         "bin/gendiff"
@@ -16,7 +17,7 @@
             "email": "foreachq@gmail.com"
         }
     ],
-    "require": {
+    "require-dev": {
         "docopt/docopt": "^1.0",
         "squizlabs/php_codesniffer": "^3.6"
     }
