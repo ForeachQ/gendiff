@@ -36,7 +36,7 @@ function genDiff(string $path1, string $path2): string
     $diffStrings = array_map(function (array $diff): string {
         return "  " . implode(' ', $diff);
     }, $diffStringBuilder);
-    $diffStrings = ['{', ...$diffStrings, '}'];
+    $diffStrings = ['{', ...$diffStrings, "}\n"];
 
     return implode("\n", $diffStrings);
 }
