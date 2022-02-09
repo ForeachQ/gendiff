@@ -2,6 +2,9 @@
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
+
+use function Differ\Differ\genDiff;
+
 $doc = <<<DOC
 Generate diff
 
@@ -17,3 +20,14 @@ Options:
 DOC;
 
 $args = Docopt::handle($doc, array('version'=>'Gendiff 1.0'));
+
+$argsDictionary = [];
+foreach ($args as $key => $value) {
+    $argsDictionary[$key] = $value;
+}
+
+$firstPath = $argsDictionary['<firstFile>'];
+$secondPath = $argsDictionary['<secondFile>'];
+
+$output = genDiff($firstPath, $secondPath);
+print_r($output);
