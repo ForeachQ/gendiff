@@ -2,27 +2,23 @@
 
 namespace Differ\Differ;
 
-function genDiff(string $path1, string $path2): string
+function genDiff(array $array1, array $array2): string
 {
-    $file1 = fopen($path1, "r") or die("Unable to open " . $path1);
-    $file2 = fopen($path2, "r") or die("Unable to open " . $path2);
-    $json1 =  json_decode(fread($file1, filesize($path1)), true);
-    $json2 =  json_decode(fread($file2, filesize($path2)), true);
-    $allEntries = array_merge($json1, $json2);
+    $allEntries = array_merge($array1, $array2);
 
     $diffStringBuilder = [];
     foreach ($allEntries as $key => $value) {
-        if (!in_array($key, array_keys($json2), true)) {
+        if (!in_array($key, array_keys($array2), true)) {
             $diffStringBuilder[] = ['-', sprintf("%s: %s", $key, normalizeBool($value))];
             continue;
         }
-        if (!in_array($key, array_keys($json1), true)) {
+        if (!in_array($key, array_keys($array1), true)) {
             $diffStringBuilder[] = ['+', sprintf("%s: %s", $key, normalizeBool($value))];
             continue;
         }
-        if ($json2[$key] !== $json1[$key]) {
-            $diffStringBuilder[] = ['-', sprintf("%s: %s", $key, normalizeBool($json1[$key]))];
-            $diffStringBuilder[] = ['+', sprintf("%s: %s", $key, normalizeBool($json2[$key]))];
+        if ($array2[$key] !== $array1[$key]) {
+            $diffStringBuilder[] = ['-', sprintf("%s: %s", $key, normalizeBool($array1[$key]))];
+            $diffStringBuilder[] = ['+', sprintf("%s: %s", $key, normalizeBool($array2[$key]))];
             continue;
         }
         $diffStringBuilder[] = [' ', sprintf("%s: %s", $key, normalizeBool($value))];

@@ -10,8 +10,17 @@ class DifferTest extends TestCase
 {
     public function testTwoFilled(): void
     {
-        $json1 = "tests/fixtures/file1.json";
-        $json2 = "tests/fixtures/file2.json";
+        $array1 = [
+            "host" => "hexlet.io",
+            "timeout" => 50,
+            "proxy" => "123.234.53.22",
+            "follow" => false
+        ];
+        $array2 = [
+            "timeout" => 20,
+            "verbose" => true,
+            "host" => "hexlet.io"
+        ];
         $expected = <<<STR
         {
           - follow: false
@@ -23,14 +32,19 @@ class DifferTest extends TestCase
         }
         
         STR;
-        $actual = genDiff($json1, $json2);
+        $actual = genDiff($array1, $array2);
         $this->assertEquals($expected, $actual);
     }
 
     public function testEmptyAndFilled(): void
     {
-        $json1 = "tests/fixtures/file1.json";
-        $json2 = "tests/fixtures/empty.json";
+        $array1 = [
+            "host" => "hexlet.io",
+            "timeout" => 50,
+            "proxy" => "123.234.53.22",
+            "follow" => false
+        ];
+        $array2 = [];
         $expected = <<<STR
         {
           - follow: false
@@ -40,20 +54,20 @@ class DifferTest extends TestCase
         }
         
         STR;
-        $actual = genDiff($json1, $json2);
+        $actual = genDiff($array1, $array2);
         $this->assertEquals($expected, $actual);
     }
 
     public function testTwoEmpty(): void
     {
-        $json1 = "tests/fixtures/empty.json";
-        $json2 = "tests/fixtures/empty.json";
+        $array1 = [];
+        $array2 = [];
         $expected = <<<STR
         {
         }
         
         STR;
-        $actual = genDiff($json1, $json2);
+        $actual = genDiff($array1, $array2);
         $this->assertEquals($expected, $actual);
     }
 }
