@@ -8,9 +8,6 @@ use Symfony\Component\Yaml\Exception\ParseException;
 use function Differ\Parsers\YamlParser\parse as parseYaml;
 use function Differ\Parsers\JsonParser\parse as parseJson;
 
-/**
- * @throws Exception
- */
 function parse(string $filepath): array
 {
     $arr = explode('.', $filepath);
