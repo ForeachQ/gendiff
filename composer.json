@@ -11,10 +11,13 @@
             "Hexlet\\Code\\": "src/"
         },
         "files": [
-            "src/Differ.php",
+            "src/DiffGenerator/Differ.php",
+            "src/DiffGenerator/FindDifferences.php",
             "src/Parsers/JsonParser.php",
             "src/Parsers/YamlParser.php",
-            "src/Parsers/ParserFactory.php"
+            "src/Parsers/ParserFactory.php",
+            "src/Formatters/FormatterFactory.php",
+            "src/Formatters/StylishFormatter.php"
         ]
     },
     "autoload-dev": {

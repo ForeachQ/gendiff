@@ -3,8 +3,7 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use function Differ\Differ\genDiff;
-use function Differ\Parsers\ParserFactory\parse;
+use function Differ\DiffGenerator\Differ\genDiff;
 
 $doc = <<<DOC
 Generate diff
@@ -29,12 +28,7 @@ foreach ($args as $key => $value) {
 
 $path1 = $argsDictionary['<firstFile>'];
 $path2 = $argsDictionary['<secondFile>'];
-try {
-    $array1 = parse($path1);
-    $array2 = parse($path2);
-} catch (Exception $e) {
-    printf("Unknown extension.");
-    exit(0);
-}
 
-print_r(genDiff($array1, $array2));
+$differences = genDiff($path1, $path2);
+
+print_r($differences);
