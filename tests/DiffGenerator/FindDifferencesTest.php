@@ -43,23 +43,21 @@ class FindDifferencesTest extends TestCase
         ];
 
         $expected = [
-            ['mod' => '', 'key' => 'common', 'val' => [
-                ['mod' => '', 'key' => 'setting1', 'val' => 'Value 1'],
-                ['mod' => '-', 'key' => 'setting2', 'val' => '200'],
-                ['mod' => '-', 'key' => 'setting3', 'val' => '1'],
-                ['mod' => '+', 'key' => 'setting3', 'val' => false],
-                ['mod' => '', 'key' => 'setting6', 'val' => [
-                    ['mod' => '', 'key' => 'key', 'val' => 'value'],
-                    ['mod' => '', 'key' => 'doge', 'val' => [
-                        ['mod' => '-', 'key' => 'wow', 'val' => false],
-                        ['mod' => '+', 'key' => 'wow', 'val' => 'so much']
+            ['mod' => 'unchanged', 'key' => 'common', 'val' => [
+                ['mod' => 'unchanged', 'key' => 'setting1', 'val' => 'Value 1'],
+                ['mod' => 'removed', 'key' => 'setting2', 'val' => '200'],
+                ['mod' => 'changed', 'key' => 'setting3', 'val' => ['1', false]],
+                ['mod' => 'unchanged', 'key' => 'setting6', 'val' => [
+                    ['mod' => 'unchanged', 'key' => 'key', 'val' => 'value'],
+                    ['mod' => 'unchanged', 'key' => 'doge', 'val' => [
+                        ['mod' => 'changed', 'key' => 'wow', 'val' => [false, 'so much']]
                     ]],
-                    ['mod' => '+', 'key' => 'ops', 'val' => 'vops']
+                    ['mod' => 'add', 'key' => 'ops', 'val' => 'vops']
                 ]],
-                ['mod' => '+', 'key' => 'follow', 'val' => false],
-                ['mod' => '+', 'key' => 'setting4', 'val' => 'blah blah'],
-                ['mod' => '+', 'key' => 'setting5', 'val' => [
-                    ['mod' => '', 'key' => 'key5', 'val' => 'value5'],
+                ['mod' => 'add', 'key' => 'follow', 'val' => false],
+                ['mod' => 'add', 'key' => 'setting4', 'val' => 'blah blah'],
+                ['mod' => 'add', 'key' => 'setting5', 'val' => [
+                    ['mod' => 'unchanged', 'key' => 'key5', 'val' => 'value5'],
                 ]],
             ]]
         ];

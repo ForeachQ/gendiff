@@ -2,8 +2,11 @@
 
 namespace Differ\Formatters\StylishFormatter;
 
+use function Differ\Utils\Stringify\toString;
+
 function format(array $diffs): string
 {
+    $diffs = prepareDiffs($diffs);
     return recursiveFormat($diffs) . "\n";
 }
 
@@ -25,24 +28,37 @@ function recursiveFormat(array $diffs): string
             $value = ["{", ...$value];
             $value = implode("\n", $value);
         }
-        return sprintf("%3s %s: %s", $mod, $key, toString($value));
+
+        switch ($mod) {
+            case 'add':
+                return sprintf("%3s %s: %s", '+', $key, toString($value));
+            case 'removed':
+                return sprintf("%3s %s: %s", '-', $key, toString($value));
+            case 'unchanged':
+                return sprintf("%3s %s: %s", '', $key, toString($value));
+        }
+        return '';
     }, $diffs);
     $output = ['{', ...$output, '}'];
 
     return implode("\n", $output);
 }
 
-function toString($value): string
+function prepareDiffs(array $diffs): array
 {
-    if ($value === true) {
-        return 'true';
-    }
-    if ($value === false) {
-        return 'false';
-    }
-    if ($value === null) {
-        return 'null';
+    $resultDiffs = [];
+    foreach ($diffs as $diff) {
+        if (is_array($diff['val']) && $diff['mod'] !== 'changed') {
+            $diff['val'] = prepareDiffs($diff['val']);
+        }
+        if ($diff['mod'] !== 'changed') {
+            $resultDiffs[] = $diff;
+            continue;
+        }
+
+        $resultDiffs[] = ['mod' => 'removed', 'key' => $diff['key'], 'val' => $diff['val'][0]];
+        $resultDiffs[] = ['mod' => 'add', 'key' => $diff['key'], 'val' => $diff['val'][1]];
     }
 
-    return (string) $value;
+    return $resultDiffs;
 }
