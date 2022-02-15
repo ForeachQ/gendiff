@@ -11,45 +11,49 @@ function format(array $diffs): string
 
 function recursiveFormat(array $diffs, string $parentName): array
 {
-    usort($diffs, fn (array $arr1, array $arr2) => $arr1['key'] <=> $arr2['key']);
-    $strings = array_map(function (array $diff) use ($parentName) {
-        ['mod' => $mod, 'key' => $key, 'val' => $val] = $diff;
+    $keys = array_keys($diffs);
+    sort($keys, SORT_STRING);
+
+    $strings = array_map(function ($key) use ($diffs, $parentName) {
+        $meta = $diffs[$key];
+        $state = $meta['state'];
+        $value = $meta['value'] ?? null;
         if ($parentName !== '') {
             $key = sprintf("%s.%s", $parentName, $key);
         }
         $result = [];
 
-        if (is_string($val)) {
-            $val = sprintf("'%s'", $val);
+        if (is_string($value)) {
+            $value = sprintf("'%s'", $value);
         }
 
-        if ($mod === 'add') {
-            $result[] = sprintf("Property '%s' was added with value: %s", $key, toString($val));
+        if ($state === 'add') {
+            $result[] = sprintf("Property '%s' was added with value: %s", $key, toString($value));
         }
-        if ($mod === 'removed') {
+        if ($state === 'removed') {
             $result[] = sprintf("Property '%s' was removed", $key);
         }
-        if ($mod === 'changed') {
-            if (is_string($val[0])) {
-                $val[0] = sprintf("'%s'", $val[0]);
+        if ($state === 'changed') {
+            if (is_string($meta['oldValue'])) {
+                $meta['oldValue'] = sprintf("'%s'", toString($meta['oldValue']));
             }
-            if (is_string($val[1])) {
-                $val[1] = sprintf("'%s'", $val[1]);
+            if (is_string($meta['newValue'])) {
+                $meta['newValue'] = sprintf("'%s'", toString($meta['newValue']));
             }
             $result[] = sprintf(
                 "Property '%s' was updated. From %s to %s",
                 $key,
-                toString($val[0]),
-                toString($val[1])
+                toString($meta['oldValue']),
+                toString($meta['newValue'])
             );
         }
 
-        if (is_array($val) && $mod !== 'changed') {
-            $result = array_merge($result, recursiveFormat($val, $key));
+        if (is_array($value) && $state !== 'changed') {
+            $result = array_merge($result, recursiveFormat($value, $key));
         }
 
         return implode("\n", $result);
-    }, $diffs);
+    }, $keys);
 
     return array_filter($strings);
 }

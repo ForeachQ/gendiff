@@ -36,21 +36,21 @@ class StylishFormatterTest extends TestCase
         STR;
 
         $diffs = [
-            ['mod' => 'unchanged', 'key' => 'common', 'val' => [
-                ['mod' => 'unchanged', 'key' => 'setting1', 'val' => 'Value 1'],
-                ['mod' => 'removed', 'key' => 'setting2', 'val' => '200'],
-                ['mod' => 'changed', 'key' => 'setting3', 'val' => ['1', false]],
-                ['mod' => 'unchanged', 'key' => 'setting6', 'val' => [
-                    ['mod' => 'unchanged', 'key' => 'key', 'val' => 'value'],
-                    ['mod' => 'unchanged', 'key' => 'doge', 'val' => [
-                        ['mod' => 'changed', 'key' => 'wow', 'val' => [false, 'so much']]
+            'common' => ['state' => 'unchanged', 'value' => [
+                'setting1' => ['state' => 'unchanged', 'value' => 'Value 1'],
+                'setting2' => ['state' => 'removed', 'value' => '200'],
+                'setting3' => ['state' => 'changed', 'oldValue' => '1', 'newValue' => false],
+                'setting6' => ['state' => 'unchanged', 'value' => [
+                    'key' => ['state' => 'unchanged', 'value' => 'value'],
+                    'doge' => ['state' => 'unchanged', 'value' => [
+                        'wow' => ['state' => 'changed', 'oldValue' => false, 'newValue' => 'so much']
                     ]],
-                    ['mod' => 'add', 'key' => 'ops', 'val' => 'vops']
+                    'ops' => ['state' => 'add', 'value' => 'vops']
                 ]],
-                ['mod' => 'add', 'key' => 'follow', 'val' => false],
-                ['mod' => 'add', 'key' => 'setting4', 'val' => 'blah blah'],
-                ['mod' => 'add', 'key' => 'setting5', 'val' => [
-                    ['mod' => 'unchanged', 'key' => 'key5', 'val' => 'value5'],
+                'follow' => ['state' => 'add', 'value' => false],
+                'setting4' => ['state' => 'add', 'value' => 'blah blah'],
+                'setting5' => ['state' => 'add', 'value' => [
+                    'key5' => ['state' => 'unchanged', 'value' => 'value5'],
                 ]],
             ]]
         ];

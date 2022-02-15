@@ -9,23 +9,23 @@ function getDifferences(array $arr1, array $arr2): array
     $diffBuilder = [];
     foreach ($allEntries as $key) {
         if (!in_array($key, array_keys($arr2), true)) {
-            $diffBuilder[] = ['mod' => 'removed', 'key' => $key, 'val' => $arr1[$key]];
+            $diffBuilder[$key] = ['state' => 'removed', 'value' => $arr1[$key]];
             continue;
         }
         if (!in_array($key, array_keys($arr1), true)) {
-            $diffBuilder[] = ['mod' => 'add', 'key' => $key, 'val' => $arr2[$key]];
+            $diffBuilder[$key] = ['state' => 'add', 'value' => $arr2[$key]];
             continue;
         }
         if ($arr2[$key] !== $arr1[$key]) {
             if (is_array($arr1[$key]) && is_array($arr2[$key])) {
                 $newValue = getDifferences($arr1[$key], $arr2[$key]);
-                $diffBuilder[] = ['mod' => 'unchanged', 'key' => $key, 'val' => $newValue];
+                $diffBuilder[$key] = ['state' => 'unchanged', 'value' => $newValue];
                 continue;
             }
-            $diffBuilder[] = ['mod' => 'changed', 'key' => $key, 'val' => [$arr1[$key], $arr2[$key]]];
+            $diffBuilder[$key] = ['state' => 'changed', 'oldValue' => $arr1[$key], 'newValue' => $arr2[$key]];
             continue;
         }
-        $diffBuilder[$key] = $arr1[$key];
+        $diffBuilder[$key] = ['state' => 'unchanged', 'value' => $arr1[$key]];
     }
 
     return normalizeDifferences($diffBuilder);
@@ -34,29 +34,34 @@ function getDifferences(array $arr1, array $arr2): array
 function normalizeDifferences(array $diffs): array
 {
     $keys = array_keys($diffs);
-    return array_map(function ($key) use ($diffs) {
-        $diff = $diffs[$key];
-        if (!is_array($diff)) {
-            return ['mod' => 'unchanged', 'key' => $key, 'val' => $diff];
+    return array_reduce($keys, function ($acc, $key) use ($diffs) {
+        $meta = $diffs[$key];
+        if (!is_array($meta)) {
+            $acc[$key] = ['state' => 'unchanged', 'value' => $meta];
+            return $acc;
         }
-        if (!array_key_exists('mod', $diff)) {
-            $newValue = normalizeDifferences($diff);
-            return ['mod' => 'unchanged', 'key' => $key, 'val' => $newValue];
+        if (!array_key_exists('state', $meta)) {
+            $newValue = normalizeDifferences($meta);
+            $acc[$key] = ['state' => 'unchanged', 'value' => $newValue];
+            return $acc;
         }
-        if (is_array($diff['val']) && $diff['mod'] !== 'changed') {
-            $newValue = normalizeDifferences($diff['val']);
-            return ['mod' => $diff['mod'], 'key' => $diff['key'], 'val' => $newValue];
+        if ($meta['state'] !== 'changed' && is_array($meta['value'])) {
+            $newValue = normalizeDifferences($meta['value']);
+            $acc[$key] = ['state' => $meta['state'], 'value' => $newValue];
+            return $acc;
         }
-        if ($diff['mod'] === 'changed') {
-            if (is_array($diff['val'][0])) {
-                $diff['val'][0] = normalizeDifferences($diff['val'][0]);
+        if ($meta['state'] === 'changed') {
+            if (is_array($meta['oldValue'])) {
+                $meta['oldValue'] = normalizeDifferences($meta['oldValue']);
             }
-            if (is_array($diff['val'][1])) {
-                $diff['val'][1] = normalizeDifferences($diff['val'][1]);
+            if (is_array($meta['newValue'])) {
+                $meta['newValue'] = normalizeDifferences($meta['newValue']);
             }
-            return $diff;
+            $acc[$key] = ['state' => 'changed', 'oldValue' => $meta['oldValue'], 'newValue' => $meta['newValue']];
+            return $acc;
         }
 
-        return $diff;
-    }, $keys);
+        $acc[$key] = ['state' => $meta['state'], 'value' => $meta['value']];
+        return $acc;
+    }, []);
 }
