@@ -11,7 +11,7 @@
             "Hexlet\\Code\\": "src/"
         },
         "files": [
-            "src/DiffGenerator/Differ.php",
+            "src/Differ.php",
             "src/DiffGenerator/FindDifferences.php",
             "src/Parsers/JsonParser.php",
             "src/Parsers/YamlParser.php",
@@ -19,6 +19,7 @@
             "src/Formatters/FormatterFactory.php",
             "src/Formatters/StylishFormatter.php",
             "src/Formatters/PlainFormatter.php",
+            "src/Formatters/JsonFormatter.php",
             "src/Utils/Stringify.php"
         ]
     },
@@ -34,11 +35,11 @@
         }
     ],
     "require-dev": {
-        "docopt/docopt": "^1.0",
         "squizlabs/php_codesniffer": "^3.6",
         "phpunit/phpunit": "^9.5"
     },
     "require": {
+        "docopt/docopt": "^1.0",
         "ext-json": "*",
         "symfony/yaml": "^5.4"
     }

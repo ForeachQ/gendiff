@@ -2,6 +2,7 @@
 
 namespace Differ\Tests\Parsers;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 use function Differ\Parsers\JsonParser\parse;
@@ -55,7 +56,7 @@ class JsonParserTest extends TestCase
     public function testWrongPath(): void
     {
         $path = dirname(__DIR__) . "/fixtures/wrong.json";
-        $this->expectError();
+        $this->expectException(Exception::class);
         parse($path);
     }
 }

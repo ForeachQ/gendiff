@@ -10,7 +10,11 @@ if (file_exists($autoloadPath1)) {
     require_once $autoloadPath2;
 }
 
-use function Differ\DiffGenerator\Differ\genDiff;
+use function Differ\Differ\genDiff;
+
+set_exception_handler(function (Throwable $e): void {
+    printf("Error: %s", $e->getMessage());
+});
 
 $doc = <<<DOC
 Generate diff

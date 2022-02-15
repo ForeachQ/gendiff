@@ -6,27 +6,27 @@ function getDifferences(array $arr1, array $arr2): array
 {
     $allEntries = array_unique(array_merge(array_keys($arr1), array_keys($arr2)));
 
-    $diffBuilder = [];
-    foreach ($allEntries as $key) {
+    $diffBuilder = array_reduce($allEntries, function ($diffs, $key) use ($arr2, $arr1) {
         if (!in_array($key, array_keys($arr2), true)) {
-            $diffBuilder[$key] = ['state' => 'removed', 'value' => $arr1[$key]];
-            continue;
+            $diffs[$key] = ['state' => 'removed', 'value' => $arr1[$key]];
+            return $diffs;
         }
         if (!in_array($key, array_keys($arr1), true)) {
-            $diffBuilder[$key] = ['state' => 'add', 'value' => $arr2[$key]];
-            continue;
+            $diffs[$key] = ['state' => 'add', 'value' => $arr2[$key]];
+            return $diffs;
         }
         if ($arr2[$key] !== $arr1[$key]) {
             if (is_array($arr1[$key]) && is_array($arr2[$key])) {
                 $newValue = getDifferences($arr1[$key], $arr2[$key]);
-                $diffBuilder[$key] = ['state' => 'unchanged', 'value' => $newValue];
-                continue;
+                $diffs[$key] = ['state' => 'unchanged', 'value' => $newValue];
+                return $diffs;
             }
-            $diffBuilder[$key] = ['state' => 'changed', 'oldValue' => $arr1[$key], 'newValue' => $arr2[$key]];
-            continue;
+            $diffs[$key] = ['state' => 'changed', 'oldValue' => $arr1[$key], 'newValue' => $arr2[$key]];
+            return $diffs;
         }
-        $diffBuilder[$key] = ['state' => 'unchanged', 'value' => $arr1[$key]];
-    }
+        $diffs[$key] = ['state' => 'unchanged', 'value' => $arr1[$key]];
+        return $diffs;
+    }, []);
 
     return normalizeDifferences($diffBuilder);
 }
