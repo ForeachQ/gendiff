@@ -5,8 +5,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use function Differ\DiffGenerator\Differ\genDiff;
 
-const DEFAULT_FORMAT = 'stylish';
-
 $doc = <<<DOC
 Generate diff
 
@@ -28,7 +26,7 @@ foreach ($args as $key => $value) {
     $argsDictionary[$key] = $value;
 }
 
-$format = $argsDictionary['<fmt>'] ?? DEFAULT_FORMAT;
+$format = $argsDictionary['--format'];
 
 $path1 = $argsDictionary['<firstFile>'];
 $path2 = $argsDictionary['<secondFile>'];
