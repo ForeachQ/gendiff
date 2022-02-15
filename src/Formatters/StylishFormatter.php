@@ -12,7 +12,6 @@ function format(array $diffs): string
 
 function recursiveFormat(array $diffs): string
 {
-
     usort($diffs, fn (array $arr1, array $arr2) => $arr1['key'] <=> $arr2['key']);
 
     $output = array_map(function (array $entry) {
@@ -48,16 +47,16 @@ function prepareDiffs(array $diffs): array
 {
     $resultDiffs = [];
     foreach ($diffs as $diff) {
-        if (is_array($diff['val']) && $diff['mod'] !== 'changed') {
-            $diff['val'] = prepareDiffs($diff['val']);
-        }
-        if ($diff['mod'] !== 'changed') {
-            $resultDiffs[] = $diff;
+        if ($diff['mod'] === 'changed') {
+            $resultDiffs[] = ['mod' => 'removed', 'key' => $diff['key'], 'val' => $diff['val'][0]];
+            $resultDiffs[] = ['mod' => 'add', 'key' => $diff['key'], 'val' => $diff['val'][1]];
             continue;
         }
+        if (is_array($diff['val'])) {
+            $diff['val'] = prepareDiffs($diff['val']);
+        }
 
-        $resultDiffs[] = ['mod' => 'removed', 'key' => $diff['key'], 'val' => $diff['val'][0]];
-        $resultDiffs[] = ['mod' => 'add', 'key' => $diff['key'], 'val' => $diff['val'][1]];
+        $resultDiffs[] = $diff;
     }
 
     return $resultDiffs;
