@@ -20,7 +20,8 @@
             "src/Formatters/StylishFormatter.php",
             "src/Formatters/PlainFormatter.php",
             "src/Formatters/JsonFormatter.php",
-            "src/Utils/Stringify.php"
+            "src/Utils/Stringify.php",
+            "src/Utils/Sort.php"
         ]
     },
     "autoload-dev": {

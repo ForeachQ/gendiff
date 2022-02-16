@@ -43,23 +43,23 @@ class FindDifferencesTest extends TestCase
         ];
 
         $expected = [
-            'common' => ['state' => 'unchanged', 'value' => [
-                'setting1' => ['state' => 'unchanged', 'value' => 'Value 1'],
-                'setting2' => ['state' => 'removed', 'value' => '200'],
-                'setting3' => ['state' => 'changed', 'oldValue' => '1', 'newValue' => false],
-                'setting6' => ['state' => 'unchanged', 'value' => [
-                    'key' => ['state' => 'unchanged', 'value' => 'value'],
-                    'doge' => ['state' => 'unchanged', 'value' => [
-                        'wow' => ['state' => 'changed', 'oldValue' => false, 'newValue' => 'so much']
+             ['key' => 'common', 'state' => 'unchanged', 'value' => [
+                ['key' => 'setting1', 'state' => 'unchanged', 'value' => 'Value 1'],
+                ['key' => 'setting2', 'state' => 'removed', 'value' => '200'],
+                ['key' => 'setting3', 'state' => 'changed', 'oldValue' => '1', 'newValue' => false],
+                ['key' => 'setting6', 'state' => 'unchanged', 'value' => [
+                    ['key' => 'key', 'state' => 'unchanged', 'value' => 'value'],
+                    ['key' => 'doge', 'state' => 'unchanged', 'value' => [
+                        ['key' => 'wow', 'state' => 'changed', 'oldValue' => false, 'newValue' => 'so much']
                     ]],
-                    'ops' => ['state' => 'add', 'value' => 'vops']
+                    ['key' => 'ops', 'state' => 'add', 'value' => 'vops']
                 ]],
-                'follow' => ['state' => 'add', 'value' => false],
-                'setting4' => ['state' => 'add', 'value' => 'blah blah'],
-                'setting5' => ['state' => 'add', 'value' => [
-                    'key5' => ['state' => 'unchanged', 'value' => 'value5'],
+                ['key' => 'follow', 'state' => 'add', 'value' => false],
+                ['key' => 'setting4', 'state' => 'add', 'value' => 'blah blah'],
+                ['key' => 'setting5', 'state' => 'add', 'value' => [
+                    ['key' => 'key5', 'state' => 'unchanged', 'value' => 'value5'],
                 ]],
-            ]]
+             ]]
         ];
 
         $actual = getDifferences($arr1, $arr2);

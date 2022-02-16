@@ -7,7 +7,7 @@ use Exception;
 function parse(string $filepath): array
 {
     if (!file_exists($filepath)) {
-        throw new Exception(sprintf("File %s was not found.", $filepath));
+        throw new Exception(sprintf("File %s is not exist.", $filepath));
     }
     $jsonStr = file_get_contents($filepath);
     if ($jsonStr === false) {

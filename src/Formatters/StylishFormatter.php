@@ -2,6 +2,7 @@
 
 namespace Differ\Formatters\StylishFormatter;
 
+use function Differ\Utils\Sort\quickSort;
 use function Differ\Utils\Stringify\toString;
 
 function format(array $diffs): string
@@ -11,15 +12,14 @@ function format(array $diffs): string
 
 function recursiveFormat(array $diffs): string
 {
-    $keys = array_keys($diffs);
-    sort($keys, SORT_STRING);
-
-    $output = array_map(function ($key) use ($diffs) {
-        $meta = $diffs[$key];
+    $sortedDiffs = quickSort($diffs, fn (array $arr1, array $arr2) => $arr1['key'] <=> $arr2['key']);
+    $output = array_map(function ($meta) {
+        $key = $meta['key'];
         $state = $meta['state'];
-        $value = $meta['value'] ?? null;
-        if ($state !== 'changed' && is_array($value)) {
-            $value = arrayToString($value);
+        if ($state !== 'changed' && is_array($meta['value'])) {
+            $value = arrayToString($meta['value']);
+        } else {
+            $value = $meta['value'] ?? null;
         }
 
         switch ($state) {
@@ -31,32 +31,34 @@ function recursiveFormat(array $diffs): string
                 return sprintf("%3s %s: %s", '', $key, toString($value));
             case 'changed':
                 $output = [];
-                $oldValue = $meta['oldValue'];
-                $newValue = $meta['newValue'];
-                if (is_array($oldValue)) {
-                    $oldValue = arrayToString($oldValue);
+                if (is_array($meta['oldValue'])) {
+                    $oldValue = arrayToString($meta['oldValue']);
+                } else {
+                    $oldValue = $meta['oldValue'];
                 }
-                if (is_array($newValue)) {
-                    $newValue = arrayToString($newValue);
+                if (is_array($meta['newValue'])) {
+                    $newValue = arrayToString($meta['newValue']);
+                } else {
+                    $newValue = $meta['newValue'];
                 }
-                $output[] = sprintf("%3s %s: %s", '-', $key, toString($oldValue));
-                $output[] = sprintf("%3s %s: %s", '+', $key, toString($newValue));
-                return implode("\n", $output);
+                $oldStr = sprintf("%3s %s: %s", '-', $key, toString($oldValue));
+                $newStr = sprintf("%3s %s: %s", '+', $key, toString($newValue));
+                return implode("\n", [$oldStr, $newStr]);
         }
         return '';
-    }, $keys);
-    $output = ['{', ...$output, '}'];
+    }, $sortedDiffs);
+    $normalizedOutput = ['{', ...$output, '}'];
 
-    return implode("\n", $output);
+    return implode("\n", $normalizedOutput);
 }
 
-function arrayToString(array $value): string
+function arrayToString(array $array): string
 {
-    $value = recursiveFormat($value);
-    $value = array_map(
+    $strings = recursiveFormat($array);
+    $tabStrings = array_map(
         fn(string $str) => sprintf("%4s%s", ' ', $str),
-        array_slice(explode("\n", $value), 1)
+        array_slice(explode("\n", $strings), 1)
     );
-    $value = ["{", ...$value];
-    return implode("\n", $value);
+    $resultStrings = ["{", ...$tabStrings];
+    return implode("\n", $resultStrings);
 }
