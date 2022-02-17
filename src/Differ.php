@@ -2,8 +2,6 @@
 
 namespace Differ\Differ;
 
-use Exception;
-
 use function Differ\Parsers\ParserFactory\parse;
 use function Differ\DiffGenerator\FindDifferences\getDifferences;
 use function Differ\Formatters\FormatterFactory\format;

@@ -30,7 +30,6 @@ function recursiveFormat(array $diffs): string
             case 'unchanged':
                 return sprintf("%3s %s: %s", '', $key, toString($value));
             case 'changed':
-                $output = [];
                 if (is_array($meta['oldValue'])) {
                     $oldValue = arrayToString($meta['oldValue']);
                 } else {

@@ -44,8 +44,16 @@ function normalizeDifferences(array $diffs): array
             return ['key' => $metaKey, 'state' => $meta['state'], 'value' => $newValue];
         }
         if ($meta['state'] === 'changed') {
-            $oldValue = is_array($meta['oldValue']) ? normalizeDifferences($meta['oldValue']) : $meta['oldValue'];
-            $newValue = is_array($meta['newValue']) ? normalizeDifferences($meta['newValue']) : $meta['newValue'];
+            if (is_array($meta['oldValue'])) {
+                $oldValue = normalizeDifferences($meta['oldValue']);
+            } else {
+                $oldValue = $meta['oldValue'];
+            }
+            if (is_array($meta['newValue'])) {
+                $newValue = normalizeDifferences($meta['newValue']);
+            } else {
+                $newValue = $meta['newValue'];
+            }
             return ['key' => $metaKey, 'state' => 'changed',
                 'oldValue' => $oldValue, 'newValue' => $newValue];
         }
