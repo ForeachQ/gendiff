@@ -32,6 +32,7 @@ class StylishFormatterTest extends TestCase
                 }
             }
         }
+        
         STR;
 
         $diffs = [

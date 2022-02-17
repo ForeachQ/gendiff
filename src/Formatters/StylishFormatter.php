@@ -7,7 +7,7 @@ use function Differ\Utils\Stringify\toString;
 
 function format(array $diffs): string
 {
-    return recursiveFormat($diffs);
+    return recursiveFormat($diffs) . "\n";
 }
 
 function recursiveFormat(array $diffs): string

@@ -84,6 +84,7 @@ class JsonFormatterTest extends TestCase
                 ]
             }
         ]
+        
         STR;
 
         $diffs = [

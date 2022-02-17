@@ -18,6 +18,7 @@ class PlainFormatterTest extends TestCase
         Property 'common.setting5' was added with value: [complex value]
         Property 'common.setting6.doge.wow' was updated. From false to 'so much'
         Property 'common.setting6.ops' was added with value: 'vops'
+        
         STR;
 
         $diffs = [
