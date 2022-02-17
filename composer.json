@@ -1,7 +1,7 @@
 {
-    "name": "hexlet/code",
+    "name": "foreachq/gendiff",
     "type": "project",
-    "description": "difference project",
+    "description": "Structure differences finder",
     "license": "proprietary",
     "bin": [
         "bin/gendiff"
