@@ -37,21 +37,21 @@ function recursiveFormat(array $diffs, string $parentName): array
         }
 
         if ($state === 'add') {
-            return sprintf("Property '%s' was added with value: %s", $key, toString($value)) . $result;
+            return sprintf("Property '%s' was added with value: %s", $key, toString([$value])) . $result;
         }
         if ($state === 'removed') {
             return sprintf("Property '%s' was removed", $key) . $result;
         }
         if ($state === 'changed') {
             if (is_string($meta['oldValue'])) {
-                $oldValue = sprintf("'%s'", toString($meta['oldValue']));
+                $oldValue = sprintf("'%s'", toString([$meta['oldValue']]));
             } else {
-                $oldValue = toString($meta['oldValue']);
+                $oldValue = toString([$meta['oldValue']]);
             }
             if (is_string($meta['newValue'])) {
-                $newValue = sprintf("'%s'", toString($meta['newValue']));
+                $newValue = sprintf("'%s'", toString([$meta['newValue']]));
             } else {
-                $newValue = toString($meta['newValue']);
+                $newValue = toString([$meta['newValue']]);
             }
             return sprintf("Property '%s' was updated. From %s to %s", $key, $oldValue, $newValue) . $result;
         }
