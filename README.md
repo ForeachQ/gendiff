@@ -8,7 +8,9 @@
 
 ## Description
 
-Cli program gets 2 paths and output format as input and returns structures differences in user defined format.
+Can be used as a separate CLI application or imported as a php package.
+
+Program gets 2 paths and output format as input and returns structures differences in user defined format.
 
 Utility features:
 - Recursive processing;
@@ -23,6 +25,12 @@ Code is written in immutable style.
 
 ## Installation
 
+### Php package
+```bash
+composer require foreachq/gendiff
+```
+
+### Cli application
 - Download package
 
 ```bash
@@ -66,10 +74,7 @@ $ ./gendiff filepath1.json filepath2.json
 $ ./gendiff -h # for help
 ```
 
-### As php package
-```bash
-composer require foreachq/gendiff
-```
+### Php package
 ```php
 use function Differ\Differ\genDiff;
 
