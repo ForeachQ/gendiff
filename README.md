@@ -62,10 +62,14 @@ $ ./gendiff filepath1.json filepath2.json
         key5: value5
     }
 }
+
+$ ./gendiff -h # for help
 ```
 
 ### As php package
-
+```bash
+composer require foreachq/gendiff
+```
 ```php
 use function Differ\Differ\genDiff;
 
