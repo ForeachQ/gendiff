@@ -4,18 +4,19 @@ namespace Differ\Utils\Stringify;
 
 function toString($value): string
 {
+    $result = $value;
     if ($value === true) {
-        return 'true';
+        $result = 'true';
     }
     if ($value === false) {
-        return 'false';
+        $result = 'false';
     }
     if ($value === null) {
-        return 'null';
+        $result = 'null';
     }
     if (is_array($value)) {
-        return '[complex value]';
+        $result = '[complex value]';
     }
 
-    return (string) $value;
+    return (string) $result;
 }

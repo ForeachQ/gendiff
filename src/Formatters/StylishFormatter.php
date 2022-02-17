@@ -24,11 +24,14 @@ function recursiveFormat(array $diffs): string
 
         switch ($state) {
             case 'add':
-                return sprintf("%3s %s: %s", '+', $key, toString($value));
+                $resultStr = sprintf("%3s %s: %s", '+', $key, toString($value));
+                break;
             case 'removed':
-                return sprintf("%3s %s: %s", '-', $key, toString($value));
+                $resultStr = sprintf("%3s %s: %s", '-', $key, toString($value));
+                break;
             case 'unchanged':
-                return sprintf("%3s %s: %s", '', $key, toString($value));
+                $resultStr = sprintf("%3s %s: %s", '', $key, toString($value));
+                break;
             case 'changed':
                 if (is_array($meta['oldValue'])) {
                     $oldValue = arrayToString($meta['oldValue']);
@@ -42,9 +45,12 @@ function recursiveFormat(array $diffs): string
                 }
                 $oldStr = sprintf("%3s %s: %s", '-', $key, toString($oldValue));
                 $newStr = sprintf("%3s %s: %s", '+', $key, toString($newValue));
-                return implode("\n", [$oldStr, $newStr]);
+                $resultStr = implode("\n", [$oldStr, $newStr]);
+                break;
+            default:
+                $resultStr = '';
         }
-        return '';
+        return $resultStr;
     }, $sortedDiffs);
     $normalizedOutput = ['{', ...$output, '}'];
 

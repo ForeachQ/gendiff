@@ -30,17 +30,13 @@ function recursiveFormat(array $diffs, string $parentName): array
         } else {
             $value = null;
         }
-        if (is_array($value)) {
-            $result = implode("\n", recursiveFormat($value, $key));
-        } else {
-            $result = '';
-        }
 
+        $resultStrings = [];
         if ($state === 'add') {
-            return sprintf("Property '%s' was added with value: %s", $key, toString($value)) . $result;
+            $resultStrings[] = sprintf("Property '%s' was added with value: %s", $key, toString($value));
         }
         if ($state === 'removed') {
-            return sprintf("Property '%s' was removed", $key) . $result;
+            $resultStrings[] = sprintf("Property '%s' was removed", $key);
         }
         if ($state === 'changed') {
             if (is_string($meta['oldValue'])) {
@@ -53,10 +49,14 @@ function recursiveFormat(array $diffs, string $parentName): array
             } else {
                 $newValue = toString($meta['newValue']);
             }
-            return sprintf("Property '%s' was updated. From %s to %s", $key, $oldValue, $newValue) . $result;
+            $resultStrings[] = sprintf("Property '%s' was updated. From %s to %s", $key, $oldValue, $newValue);
         }
 
-        return $result;
+        if (is_array($value)) {
+            $resultStrings = array_merge($resultStrings, recursiveFormat($value, $key));
+        }
+
+        return implode("\n", $resultStrings);
     }, $sortedDiffs);
 
     return array_filter($output);
