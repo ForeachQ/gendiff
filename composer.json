@@ -3,6 +3,7 @@
     "type": "project",
     "description": "Structure differences finder",
     "license": "proprietary",
+    "minimum-stability": "stable",
     "bin": [
         "bin/gendiff"
     ],
