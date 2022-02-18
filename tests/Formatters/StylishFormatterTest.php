@@ -15,7 +15,8 @@ class StylishFormatterTest extends TestCase
             common: {
               + follow: false
                 setting1: Value 1
-              - setting2: 200
+              - setting2: true
+              + setting2: 300
               - setting3: 1
               + setting3: false
               + setting4: blah blah
@@ -24,8 +25,10 @@ class StylishFormatterTest extends TestCase
                 }
                 setting6: {
                     doge: {
-                      - wow: false
-                      + wow: so much
+                        wow: {
+                          - key: true
+                          + yes: null
+                        }
                     }
                     key: value
                   + ops: vops
@@ -38,12 +41,15 @@ class StylishFormatterTest extends TestCase
         $diffs = [
             ['key' => 'common', 'state' => 'unchanged', 'value' => [
                 ['key' => 'setting1', 'state' => 'unchanged', 'value' => 'Value 1'],
-                ['key' => 'setting2', 'state' => 'removed', 'value' => '200'],
+                ['key' => 'setting2', 'state' => 'changed', 'oldValue' => true, 'newValue' => '300'],
                 ['key' => 'setting3', 'state' => 'changed', 'oldValue' => '1', 'newValue' => false],
                 ['key' => 'setting6', 'state' => 'unchanged', 'value' => [
                     ['key' => 'key', 'state' => 'unchanged', 'value' => 'value'],
                     ['key' => 'doge', 'state' => 'unchanged', 'value' => [
-                        ['key' => 'wow', 'state' => 'changed', 'oldValue' => false, 'newValue' => 'so much']
+                        ['key' => 'wow', 'state' => 'unchanged', 'value' => [
+                            ['key' => 'key', 'state' => 'removed', 'value' => true],
+                            ['key' => 'yes', 'state' => 'add', 'value' => null]
+                        ]]
                     ]],
                     ['key' => 'ops', 'state' => 'add', 'value' => 'vops']
                 ]],
