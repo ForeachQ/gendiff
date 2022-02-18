@@ -9,3 +9,6 @@ lint:
 
 test:
 	composer exec --verbose phpunit tests -- --coverage-clover build/logs/clover.xml
+
+test-coverage:
+	composer exec --verbose phpunit tests -- --coverage-html coverage-report/

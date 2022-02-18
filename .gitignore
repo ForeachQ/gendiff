@@ -3,3 +3,4 @@
 /.phpunit.cache/
 /build/
 .phpunit.result.cache
+/coverage-report/
