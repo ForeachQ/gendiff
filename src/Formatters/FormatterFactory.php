@@ -8,20 +8,16 @@ use function Differ\Formatters\StylishFormatter\format as formatStylish;
 use function Differ\Formatters\PlainFormatter\format as formatPlain;
 use function Differ\Formatters\JsonFormatter\format as formatJson;
 
-function format(array $data, string $format = 'stylish'): string
+function getFormatter(string $format = 'stylish'): callable
 {
     switch ($format) {
         case 'stylish':
-            $result = formatStylish($data);
-            break;
+            return fn(array $data) => formatStylish($data);
         case 'plain':
-            $result = formatPlain($data);
-            break;
+            return fn(array $data) => formatPlain($data);
         case 'json':
-            $result = formatJson($data);
-            break;
+            return fn(array $data) => formatJson($data);
         default:
             throw new Exception("No such format support.");
     }
-    return $result;
 }

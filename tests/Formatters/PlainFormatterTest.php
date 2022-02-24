@@ -19,7 +19,6 @@ class PlainFormatterTest extends TestCase
         Property 'common.setting6.doge.wow.key' was removed
         Property 'common.setting6.doge.wow.yes' was added with value: null
         Property 'common.setting6.ops' was added with value: 'vops'
-        
         STR;
 
         $diffs = [

@@ -7,7 +7,7 @@ use function Differ\Utils\Sort\quickSort;
 
 function format(array $diffs): string
 {
-    return implode("\n", recursiveFormat($diffs, '')) . "\n";
+    return implode("\n", recursiveFormat($diffs, ''));
 }
 
 function recursiveFormat(array $diffs, string $parentName): array

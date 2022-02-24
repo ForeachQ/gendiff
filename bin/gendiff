@@ -44,4 +44,4 @@ $path2 = $argsDictionary['<secondFile>'];
 
 $differences = genDiff($path1, $path2, $format);
 
-print_r($differences);
+print_r($differences . "\n");

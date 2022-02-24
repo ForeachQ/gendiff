@@ -5,7 +5,7 @@ namespace Differ\Tests\Parsers;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
-use function Differ\Parsers\ParserFactory\parse;
+use function Differ\Parsers\ParserFactory\getParser;
 
 class ParserFactoryTest extends TestCase
 {
@@ -38,7 +38,8 @@ class ParserFactoryTest extends TestCase
     public function testJson(): void
     {
         $path = dirname(__DIR__) . "/fixtures/file1.json";
-        $actual = parse($path);
+        $parser = getParser($path);
+        $actual = $parser($path);
 
         $this->assertEquals(self::FILE1_EXPECTED, $actual);
     }
@@ -46,7 +47,8 @@ class ParserFactoryTest extends TestCase
     public function testYaml(): void
     {
         $path = dirname(__DIR__) . "/fixtures/file1.yaml";
-        $actual = parse($path);
+        $parser = getParser($path);
+        $actual = $parser($path);
 
         $this->assertEquals(self::FILE1_EXPECTED, $actual);
     }
@@ -55,13 +57,15 @@ class ParserFactoryTest extends TestCase
     {
         $path = dirname(__DIR__) . "/fixtures/wrong.jon";
         $this->expectException(Exception::class);
-        parse($path);
+        $parser = getParser($path);
+        $parser($path);
     }
 
     public function testWrongYamlPath(): void
     {
         $path = dirname(__DIR__) . "/fixtures/wrong.yaml";
         $this->expectException(Exception::class);
-        parse($path);
+        $parser = getParser($path);
+        $parser($path);
     }
 }
