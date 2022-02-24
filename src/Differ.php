@@ -2,10 +2,15 @@
 
 namespace Differ\Differ;
 
+use Exception;
+
 use function Differ\Parsers\ParserFactory\getParser;
 use function Differ\DiffGenerator\FindDifferences\getDifferences;
 use function Differ\Formatters\FormatterFactory\getFormatter;
 
+/**
+ * @throws Exception
+ */
 function genDiff(string $path1, string $path2, string $format = 'stylish'): string
 {
     $parser1 = getParser($path1);

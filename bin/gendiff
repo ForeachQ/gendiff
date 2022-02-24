@@ -12,10 +12,6 @@ if (file_exists($autoloadPath1)) {
 
 use function Differ\Differ\genDiff;
 
-set_exception_handler(function (Throwable $e): void {
-    printf("Error: %s\n", $e->getMessage());
-});
-
 $doc = <<<DOC
 Generate diff
 
@@ -42,6 +38,11 @@ $format = $argsDictionary['--format'];
 $path1 = $argsDictionary['<firstFile>'];
 $path2 = $argsDictionary['<secondFile>'];
 
-$differences = genDiff($path1, $path2, $format);
+try {
+    $differences = genDiff($path1, $path2, $format);
+} catch (Exception $e) {
+    $msg = sprintf("Error: %s\n", $e->getMessage());
+    exit($msg);
+}
 
 print_r($differences . "\n");

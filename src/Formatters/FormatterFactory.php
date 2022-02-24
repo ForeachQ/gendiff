@@ -8,6 +8,9 @@ use function Differ\Formatters\StylishFormatter\format as formatStylish;
 use function Differ\Formatters\PlainFormatter\format as formatPlain;
 use function Differ\Formatters\JsonFormatter\format as formatJson;
 
+/**
+ * @throws Exception
+ */
 function getFormatter(string $format = 'stylish'): callable
 {
     switch ($format) {

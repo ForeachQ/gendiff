@@ -4,6 +4,9 @@ namespace Differ\Parsers\JsonParser;
 
 use Exception;
 
+/**
+ * @throws Exception
+ */
 function parse(string $filepath): array
 {
     if (!file_exists($filepath)) {
