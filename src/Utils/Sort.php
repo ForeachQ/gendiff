@@ -10,6 +10,7 @@ function quickSort(array $array, callable $func): array
     $pivot_key = key($array);
     $pivot = $array[0];
     $shiftedArray = array_slice($array, 1);
+
     $loe = array_filter($shiftedArray, function ($val) use ($func, $pivot) {
         return $func($val, $pivot) !== 1;
     });
@@ -17,5 +18,10 @@ function quickSort(array $array, callable $func): array
     $gt = array_filter($shiftedArray, function ($val) use ($func, $pivot) {
         return $func($val, $pivot) === 1;
     });
-    return array_merge(quickSort($loe, $func), [$pivot_key => $pivot], quickSort($gt, $func));
+
+    return array_merge(
+        quickSort($loe, $func),
+        [$pivot_key => $pivot],
+        quickSort($gt, $func)
+    );
 }

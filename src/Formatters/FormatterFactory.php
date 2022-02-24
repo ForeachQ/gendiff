@@ -17,7 +17,7 @@ function getFormatter(string $format = 'stylish'): callable
             return fn(array $data) => formatPlain($data);
         case 'json':
             return fn(array $data) => formatJson($data);
-        default:
-            throw new Exception("No such format support.");
     }
+
+    throw new Exception("No such format support.");
 }

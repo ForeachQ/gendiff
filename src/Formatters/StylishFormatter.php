@@ -50,6 +50,7 @@ function recursiveFormat(array $diffs): string
             default:
                 $resultStr = '';
         }
+
         return $resultStr;
     }, $sortedDiffs);
     $normalizedOutput = ['{', ...$output, '}'];
@@ -65,5 +66,6 @@ function arrayToString(array $array): string
         array_slice(explode("\n", $strings), 1)
     );
     $resultStrings = ["{", ...$tabStrings];
+
     return implode("\n", $resultStrings);
 }

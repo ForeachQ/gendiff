@@ -22,7 +22,7 @@ function getParser(string $filepath): callable
             }
         case 'json':
             return fn(string $path) => parseJson($path);
-        default:
-            throw new Exception("No such file extension support.");
     }
+
+    throw new Exception("No such file extension support.");
 }
