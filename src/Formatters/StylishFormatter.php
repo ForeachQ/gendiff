@@ -13,49 +13,44 @@ function format(array $diffs): string
 function recursiveFormat(array $diffs): string
 {
     $sortedDiffs = quickSort($diffs, fn (array $arr1, array $arr2) => $arr1['key'] <=> $arr2['key']);
-    $output = array_map(function ($meta) {
+
+    $output = [];
+    foreach ($sortedDiffs as $meta) {
         $key = $meta['key'];
         $state = $meta['state'];
-        if ($state !== 'changed' && is_array($meta['value'])) {
-            $value = arrayToString($meta['value']);
-        } else {
-            $value = $meta['value'] ?? null;
+        $value = $meta['value'] ?? null;
+
+        if ($state !== 'changed') {
+            $output[] = generateStylishString($state, $key, $value);
+            continue;
         }
 
-        switch ($state) {
-            case 'add':
-                $resultStr = sprintf("%3s %s: %s", '+', $key, toString($value));
-                break;
-            case 'removed':
-                $resultStr = sprintf("%3s %s: %s", '-', $key, toString($value));
-                break;
-            case 'unchanged':
-                $resultStr = sprintf("%3s %s: %s", '', $key, toString($value));
-                break;
-            case 'changed':
-                if (is_array($meta['oldValue'])) {
-                    $oldValue = arrayToString($meta['oldValue']);
-                } else {
-                    $oldValue = $meta['oldValue'];
-                }
-                if (is_array($meta['newValue'])) {
-                    $newValue = arrayToString($meta['newValue']);
-                } else {
-                    $newValue = $meta['newValue'];
-                }
-                $oldStr = sprintf("%3s %s: %s", '-', $key, toString($oldValue));
-                $newStr = sprintf("%3s %s: %s", '+', $key, toString($newValue));
-                $resultStr = implode("\n", [$oldStr, $newStr]);
-                break;
-            default:
-                $resultStr = '';
-        }
-
-        return $resultStr;
-    }, $sortedDiffs);
+        $oldStr = generateStylishString('removed', $key, $meta['oldValue']);
+        $newStr = generateStylishString('add', $key, $meta['newValue']);
+        $output[] = implode("\n", [$oldStr, $newStr]);
+    }
     $normalizedOutput = ['{', ...$output, '}'];
 
     return implode("\n", $normalizedOutput);
+}
+
+function generateStylishString(string $mode, $key, $value): string
+{
+    $sign = '';
+    switch ($mode) {
+        case 'add':
+            $sign = '+';
+            break;
+        case 'removed':
+            $sign = '-';
+            break;
+    }
+
+    if (is_array($value)) {
+        $value = arrayToString($value);
+    }
+
+    return sprintf("%3s %s: %s", $sign, $key, toString($value));
 }
 
 function arrayToString(array $array): string
