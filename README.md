@@ -17,7 +17,6 @@ Utility features:
 - Support for different input formats: yaml and json;
 - Report generation in the form of plain text, "stylish" and json.
 
-Code is written in immutable style.
 ## Requirements
 
 - php 7.4
