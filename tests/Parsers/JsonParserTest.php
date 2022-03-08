@@ -59,4 +59,11 @@ class JsonParserTest extends TestCase
         $this->expectException(Exception::class);
         parse($path);
     }
+
+    public function testCorrupted(): void
+    {
+        $path = dirname(__DIR__) . "/fixtures/corrupted1.json";
+        $this->expectException(Exception::class);
+        parse($path);
+    }
 }

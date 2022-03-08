@@ -4,6 +4,7 @@ namespace Differ\Tests\Parsers;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Exception\ParseException;
+use Exception;
 
 use function Differ\Parsers\YamlParser\parse;
 
@@ -56,6 +57,13 @@ class YamlParserTest extends TestCase
     {
         $path = dirname(__DIR__) . "/fixtures/wrong.yaml";
         $this->expectException(ParseException::class);
+        parse($path);
+    }
+
+    public function testCorrupted(): void
+    {
+        $path = dirname(__DIR__) . "/fixtures/corrupted2.yaml";
+        $this->expectException(Exception::class);
         parse($path);
     }
 }
