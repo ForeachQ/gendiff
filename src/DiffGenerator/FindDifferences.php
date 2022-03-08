@@ -4,10 +4,11 @@ namespace Differ\DiffGenerator\FindDifferences;
 
 function getDifferences(array $arr1, array $arr2): array
 {
-    $allKeys = array_unique(array_merge(array_keys($arr1), array_keys($arr2)));
+    $allKeys = array_merge(array_keys($arr1), array_keys($arr2));
+    $uniqueKeys = array_unique($allKeys);
     $diffBuilder = [];
 
-    foreach ($allKeys as $key) {
+    foreach ($uniqueKeys as $key) {
         $keyState = getKeyState($arr1, $arr2, $key);
         if ($keyState !== 'unchanged') {
             $value = $keyState === 'add' ? $arr2[$key] : $arr1[$key];
