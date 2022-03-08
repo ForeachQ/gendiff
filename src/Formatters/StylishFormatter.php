@@ -13,8 +13,8 @@ function format(array $diffs): string
 function recursiveFormat(array $diffs): string
 {
     $sortedDiffs = quickSort($diffs, fn (array $arr1, array $arr2) => $arr1['key'] <=> $arr2['key']);
-
     $output = [];
+
     foreach ($sortedDiffs as $meta) {
         $key = $meta['key'];
         $state = $meta['state'];

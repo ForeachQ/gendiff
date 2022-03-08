@@ -13,51 +13,56 @@ function format(array $diffs): string
 function recursiveFormat(array $diffs, string $parentName): array
 {
     $sortedDiffs = quickSort($diffs, fn (array $arr1, array $arr2) => $arr1['key'] <=> $arr2['key']);
-    $output = array_map(function ($meta) use ($parentName) {
+    $output = [];
+
+    foreach ($sortedDiffs as $meta) {
+        $key = sprintf("%s.%s", $parentName, $meta['key']);
         if ($parentName === '') {
             $key = $meta['key'];
-        } else {
-            $key = sprintf("%s.%s", $parentName, $meta['key']);
         }
+
         $state = $meta['state'];
-
-        if (isset($meta['value'])) {
-            if (is_string($meta['value'])) {
-                $value = sprintf("'%s'", $meta['value']);
-            } else {
-                $value = $meta['value'];
-            }
-        } else {
-            $value = null;
-        }
-
-        $resultStrings = [];
-        if ($state === 'add') {
-            $resultStrings[] = sprintf("Property '%s' was added with value: %s", $key, toString($value));
-        }
-        if ($state === 'removed') {
-            $resultStrings[] = sprintf("Property '%s' was removed", $key);
-        }
+        $value = $meta['value'] ?? null;
         if ($state === 'changed') {
-            if (is_string($meta['oldValue'])) {
-                $oldValue = sprintf("'%s'", toString($meta['oldValue']));
-            } else {
-                $oldValue = toString($meta['oldValue']);
-            }
-            if (is_string($meta['newValue'])) {
-                $newValue = sprintf("'%s'", toString($meta['newValue']));
-            } else {
-                $newValue = toString($meta['newValue']);
-            }
-            $resultStrings[] = sprintf("Property '%s' was updated. From %s to %s", $key, $oldValue, $newValue);
+            $output[] = generatePlainString($state, $key, [$meta['oldValue'], $meta['newValue']]);
+            continue;
+        }
+
+        $reportStr = generatePlainString($state, $key, $value);
+        if (strlen($reportStr) !== 0) {
+            $output[] = $reportStr;
         }
 
         if (is_array($value)) {
-            $resultStrings = array_merge($resultStrings, recursiveFormat($value, $key));
+            $output = [...$output, ...recursiveFormat($value, $key)];
         }
+    }
 
-        return implode("\n", $resultStrings);
-    }, $sortedDiffs);
+    return $output;
+}
 
-    return array_filter($output);
+function generatePlainString(string $mode, $key, $value): string
+{
+    switch ($mode) {
+        case 'add':
+            $value = is_string($value)
+                ? sprintf("'%s'", $value)
+                : toString($value);
+
+            return sprintf("Property '%s' was added with value: %s", $key, $value);
+        case 'changed':
+            $oldValue = is_string($value[0])
+                ? sprintf("'%s'", $value[0])
+                : toString($value[0]);
+
+            $newValue = is_string($value[1])
+                ? sprintf("'%s'", $value[1])
+                : toString($value[1]);
+
+            return sprintf("Property '%s' was updated. From %s to %s", $key, $oldValue, $newValue);
+        case 'removed':
+            return sprintf("Property '%s' was removed", $key);
+    }
+
+    return '';
 }

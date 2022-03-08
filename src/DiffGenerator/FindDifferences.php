@@ -5,8 +5,8 @@ namespace Differ\DiffGenerator\FindDifferences;
 function getDifferences(array $arr1, array $arr2): array
 {
     $allKeys = array_unique(array_merge(array_keys($arr1), array_keys($arr2)));
-
     $diffBuilder = [];
+
     foreach ($allKeys as $key) {
         $keyState = getKeyState($arr1, $arr2, $key);
         if ($keyState !== 'unchanged') {
@@ -59,8 +59,8 @@ function generateMeta(string $state, $key, $value): array
 function formatEntriesToMeta(array $diffs): array
 {
     $keys = array_keys($diffs);
-
     $result = [];
+
     foreach ($keys as $key) {
         $meta = $diffs[$key];
         if (!is_array($meta)) {
