@@ -11,7 +11,7 @@ function getDifferences(array $arr1, array $arr2): array
     foreach ($uniqueKeys as $key) {
         $keyState = getKeyState($arr1, $arr2, $key);
         if ($keyState !== 'unchanged') {
-            $value = $keyState === 'add' ? $arr2[$key] : $arr1[$key];
+            $value = $keyState === 'added' ? $arr2[$key] : $arr1[$key];
             $diffBuilder[] = generateMeta($keyState, $key, $value);
             continue;
         }
@@ -40,7 +40,7 @@ function getKeyState(array $keys1, array $keys2, $key): string
     }
 
     if (!in_array($key, array_keys($keys1), true)) {
-        return 'add';
+        return 'added';
     }
 
     return 'unchanged';

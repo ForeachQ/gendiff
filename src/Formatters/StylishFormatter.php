@@ -5,6 +5,13 @@ namespace Differ\Formatters\StylishFormatter;
 use function Differ\Utils\Sort\quickSort;
 use function Differ\Utils\Stringify\toString;
 
+const SIGN_VALUES = [
+    'added' => '+',
+    'removed' => '-',
+    'changed' => '',
+    'unchanged' => ''
+];
+
 function format(array $diffs): string
 {
     return recursiveFormat($diffs);
@@ -26,7 +33,7 @@ function recursiveFormat(array $diffs): string
         }
 
         $oldStr = generateStylishString('removed', $key, $meta['oldValue']);
-        $newStr = generateStylishString('add', $key, $meta['newValue']);
+        $newStr = generateStylishString('added', $key, $meta['newValue']);
         $output[] = implode("\n", [$oldStr, $newStr]);
     }
 
@@ -37,21 +44,11 @@ function recursiveFormat(array $diffs): string
 
 function generateStylishString(string $mode, $key, $value): string
 {
-    $sign = '';
-    switch ($mode) {
-        case 'add':
-            $sign = '+';
-            break;
-        case 'removed':
-            $sign = '-';
-            break;
-    }
-
     if (is_array($value)) {
         $value = arrayToString($value);
     }
 
-    return sprintf("%3s %s: %s", $sign, $key, toString($value));
+    return sprintf("%3s %s: %s", SIGN_VALUES[$mode], $key, toString($value));
 }
 
 function arrayToString(array $array): string

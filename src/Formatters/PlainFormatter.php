@@ -44,7 +44,7 @@ function recursiveFormat(array $diffs, string $parentName): array
 function generatePlainString(string $mode, $key, $value): string
 {
     switch ($mode) {
-        case 'add':
+        case 'added':
             $value = is_string($value)
                 ? sprintf("'%s'", $value)
                 : toString($value);

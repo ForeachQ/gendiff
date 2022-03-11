@@ -57,7 +57,7 @@ class JsonFormatterTest extends TestCase
                                             },
                                             {
                                                 "key": "yes",
-                                                "state": "add",
+                                                "state": "added",
                                                 "value": null
                                             }
                                         ]
@@ -66,24 +66,24 @@ class JsonFormatterTest extends TestCase
                             },
                             {
                                 "key": "ops",
-                                "state": "add",
+                                "state": "added",
                                 "value": "vops"
                             }
                         ]
                     },
                     {
                         "key": "follow",
-                        "state": "add",
+                        "state": "added",
                         "value": false
                     },
                     {
                         "key": "setting4",
-                        "state": "add",
+                        "state": "added",
                         "value": "blah blah"
                     },
                     {
                         "key": "setting5",
-                        "state": "add",
+                        "state": "added",
                         "value": [
                             {
                                 "key": "key5",
@@ -107,14 +107,14 @@ class JsonFormatterTest extends TestCase
                     ['key' => 'doge', 'state' => 'unchanged', 'value' => [
                         ['key' => 'wow', 'state' => 'unchanged', 'value' => [
                             ['key' => 'key', 'state' => 'removed', 'value' => true],
-                            ['key' => 'yes', 'state' => 'add', 'value' => null]
+                            ['key' => 'yes', 'state' => 'added', 'value' => null]
                         ]]
                     ]],
-                    ['key' => 'ops', 'state' => 'add', 'value' => 'vops']
+                    ['key' => 'ops', 'state' => 'added', 'value' => 'vops']
                 ]],
-                ['key' => 'follow', 'state' => 'add', 'value' => false],
-                ['key' => 'setting4', 'state' => 'add', 'value' => 'blah blah'],
-                ['key' => 'setting5', 'state' => 'add', 'value' => [
+                ['key' => 'follow', 'state' => 'added', 'value' => false],
+                ['key' => 'setting4', 'state' => 'added', 'value' => 'blah blah'],
+                ['key' => 'setting5', 'state' => 'added', 'value' => [
                     ['key' => 'key5', 'state' => 'unchanged', 'value' => 'value5'],
                 ]],
             ]]
