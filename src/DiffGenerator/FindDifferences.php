@@ -26,6 +26,7 @@ function getDifferences(array $arr1, array $arr2): array
             $diffBuilder[] = generateMeta('unchanged', $key, $newValue);
             continue;
         }
+
         $diffBuilder[] = generateMeta('changed', $key, [$arr1[$key], $arr2[$key]]);
     }
 
@@ -37,6 +38,7 @@ function getKeyState(array $keys1, array $keys2, $key): string
     if (!in_array($key, array_keys($keys2), true)) {
         return 'removed';
     }
+
     if (!in_array($key, array_keys($keys1), true)) {
         return 'add';
     }

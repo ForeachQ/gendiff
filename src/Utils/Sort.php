@@ -7,6 +7,7 @@ function quickSort(array $array, callable $func): array
     if (count($array) < 2) {
         return $array;
     }
+
     $pivot_key = key($array);
     $pivot = $array[0];
     $shiftedArray = array_slice($array, 1);

@@ -121,6 +121,7 @@ class JsonFormatterTest extends TestCase
         ];
 
         $actual = format($diffs);
+
         $this->assertEquals($expected, $actual);
     }
 }

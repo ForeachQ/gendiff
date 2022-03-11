@@ -29,6 +29,7 @@ function recursiveFormat(array $diffs): string
         $newStr = generateStylishString('add', $key, $meta['newValue']);
         $output[] = implode("\n", [$oldStr, $newStr]);
     }
+
     $normalizedOutput = ['{', ...$output, '}'];
 
     return implode("\n", $normalizedOutput);
@@ -60,6 +61,7 @@ function arrayToString(array $array): string
         fn(string $str) => sprintf("%4s%s", ' ', $str),
         array_slice(explode("\n", $strings), 1)
     );
+
     $resultStrings = ["{", ...$tabStrings];
 
     return implode("\n", $resultStrings);

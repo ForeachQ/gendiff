@@ -45,6 +45,7 @@ class PlainFormatterTest extends TestCase
         ];
 
         $actual = format($diffs);
+
         $this->assertEquals($expected, $actual);
     }
 }

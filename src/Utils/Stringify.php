@@ -8,12 +8,15 @@ function toString($value): string
     if ($value === true) {
         $result = 'true';
     }
+
     if ($value === false) {
         $result = 'false';
     }
+
     if ($value === null) {
         $result = 'null';
     }
+
     if (is_array($value)) {
         $result = '[complex value]';
     }

@@ -71,6 +71,7 @@ class FindDifferencesTest extends TestCase
         ];
 
         $actual = getDifferences($arr1, $arr2);
+
         $this->assertEquals($expected, $actual);
     }
 }
