@@ -5,7 +5,7 @@ namespace Differ\Tests\Parsers;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
-use function Differ\Parsers\ParserFactory\getParser;
+use function Differ\Parsers\Factory\ParserFactory\getParser;
 
 class ParserFactoryTest extends TestCase
 {

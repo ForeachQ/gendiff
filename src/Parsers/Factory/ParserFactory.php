@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ\Parsers\ParserFactory;
+namespace Differ\Parsers\Factory\ParserFactory;
 
 use Exception;
 use Symfony\Component\Yaml\Exception\ParseException;

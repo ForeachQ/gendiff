@@ -1,6 +1,6 @@
 <?php
 
-namespace Differ\Formatters\FormatterFactory;
+namespace Differ\Formatters\Factory\FormatterFactory;
 
 use Exception;
 

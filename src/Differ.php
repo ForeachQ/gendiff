@@ -4,9 +4,9 @@ namespace Differ\Differ;
 
 use Exception;
 
-use function Differ\Parsers\ParserFactory\getParser;
+use function Differ\Parsers\Factory\ParserFactory\getParser;
 use function Differ\DiffGenerator\FindDifferences\getDifferences;
-use function Differ\Formatters\FormatterFactory\getFormatter;
+use function Differ\Formatters\Factory\FormatterFactory\getFormatter;
 
 /**
  * @throws Exception
